@@ -7,10 +7,12 @@
 
 #Include ICUError.test.ahk
 #Include ICUEnumerator.test.ahk
+#Include CharsetDetector.test.ahk
 
 YUnit.Use(YunitResultCounter, YUnitJUnit, YUnitStdOut).Test(
 	ICUErrorTests,
-	ICUEnumeratorTests
+	ICUEnumeratorTests,
+	CharsetDetectorTests
 )
 
 Exit(-YunitResultCounter.failures)
