@@ -1,5 +1,5 @@
 #Include YUnit\Assert.ahk
-#Include ..\util\CharsetDetector.ahk
+#Include ..\codepages\\CharsetDetector.ahk
 
 class CharsetDetectorTests {
 
@@ -133,7 +133,7 @@ class CharsetDetectorTests {
 
         detector.FilterMarkup := false
         Assert.Equals(detector.FilterMarkup, 0)
-        
+
         detector.FilterMarkup := true
         Assert.Equals(detector.FilterMarkup, 1)
     }

@@ -28,8 +28,8 @@ class CharsetDetector {
      * @type {Boolean}
      */
     FilterMarkup {
-        get => DllCall("icu.dll\ucsdet_isInputFilterEnabled", "ptr", this, "cdecl int")
-        set => DllCall("icu.dll\ucsdet_enableInputFilter", "ptr", this, "uchar", value, "cdecl uchar")
+        get => DllCall("icu.dll\ucsdet_isInputFilterEnabled", "ptr", this, "cdecl char")
+        set => DllCall("icu.dll\ucsdet_enableInputFilter", "ptr", this, "uchar", value, "cdecl char")
     }
 
     /**
