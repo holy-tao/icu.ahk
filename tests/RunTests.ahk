@@ -6,9 +6,11 @@
 #Include ./YUnit/Stdout.ahk
 
 #Include ICUError.test.ahk
+#Include ICUEnumerator.test.ahk
 
 YUnit.Use(YunitResultCounter, YUnitJUnit, YUnitStdOut).Test(
-	ICUErrorTests
+	ICUErrorTests,
+	ICUEnumeratorTests
 )
 
 Exit(-YunitResultCounter.failures)
