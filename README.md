@@ -3,4 +3,16 @@
 
 The ICU C libraries are [included with Windows](https://learn.microsoft.com/en-us/windows/win32/intl/international-components-for-unicode--icu-#overview) as of the Windows 10 Creators update. They're used by .NET to power a variety of [globalization](https://learn.microsoft.com/en-us/dotnet/core/extensions/globalization-icu) related APIs in a platform-agnostic way.
 
-This library provides *some* bindings for the ICU dlls, allowing users to work more easily with Unicode strings.
+This library provides *some* bindings for the ICU dlls, allowing callers to work more easily with Unicode strings.
+
+### Usage
+
+Add this repository to a [library directory](https://www.autohotkey.com/docs/v2/Scripts.htm#lib):
+```bash
+git clone git@github.com:holy-tao/icu.ahk.git icu
+```
+
+Then simply #Include it in a script
+```authotkey
+#Include <icu\util\CharsetDetector>
+```
