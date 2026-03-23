@@ -20,7 +20,8 @@
  * callback actions that can be used instead of a character substitution.
  * 
  * More information about this API can be found in the ICU [User Guide](https://unicode-org.github.io/icu/userguide/conversion/).
- * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnv_8h.html#details `ucnv.h` File Reference }
+ * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnv_8h.html#details `ucnv.h` File Reference } and
+ *      {@link https://unicode-org.github.io/icu/userguide/conversion/ Conversion | ICU User Guide}
  */
 class CharsetConverter {
 ;@region Constants

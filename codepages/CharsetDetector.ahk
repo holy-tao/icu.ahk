@@ -13,7 +13,8 @@
  * An alternative to the ICU Charset Detector is the [Compact Encoding Detector](https://github.com/google/compact_enc_det). It often gives more accurate results, especially with short input samples.
  * 
  * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html#a8f341f9c43bf58b112afd70c8a94c45d `UCharsetDetector`} and
- *      {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html#a8f341f9c43bf58b112afd70c8a94c45d `ucsdet.h` File Reference}
+ *      {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html#a8f341f9c43bf58b112afd70c8a94c45d `ucsdet.h` File Reference} and
+ *      {@link https://unicode-org.github.io/icu/userguide/conversion/detection.html Character Set Detection | ICU User Guide}
  */
 class CharsetDetector {
 
