@@ -5,6 +5,12 @@ The ICU C libraries are [included with Windows](https://learn.microsoft.com/en-u
 
 This library provides *some* bindings for the ICU dlls, allowing callers to work more easily with Unicode strings.
 
+The bindings currently support:
+- Character set detection ([`ucsdet.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html))
+- Character set conversion ([`ucnv.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnv_8h.html))
+
+I'll add more as they become useful to me. The others I'm looking at are the timezone localization APIs.
+
 ### Usage
 
 Add this repository to a [library directory](https://www.autohotkey.com/docs/v2/Scripts.htm#lib):
@@ -16,3 +22,5 @@ Then simply #Include it in a script
 ```authotkey
 #Include <icu\util\CharsetDetector>
 ```
+
+Consult the individual.ahk files for instructions on use. In general, the pattern with these APIs involes instantiating some object, thus opening a resource, then using it to perform some operations.
