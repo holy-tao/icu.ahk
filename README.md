@@ -24,3 +24,25 @@ Then simply #Include it in a script
 ```
 
 Consult the individual.ahk files for instructions on use. In general, the pattern with these APIs involes instantiating some object, thus opening a resource, then using it to perform some operations.
+
+#### [Charset Detection](./codepages/CharsetDetector.ahk) and [Charset Conversion](./codepages/conversion/)
+
+The files in the codepages/ namespace allow you to detect and convert between character sets. Originally developed for web browsers to support legacy webpages. You can also use these utilities to discover available character sets on your system and validate existing text.
+
+#### [Boundary Analysis](./boundaryanalysis)
+
+The [`BreakIterator`](./boundaryanalysis/BreakIterator.ahk) class can be used to split strings into logical parts like words, sentences, or [graphemes](https://www.unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries). Read more in the [ICU User Guide](https://unicode-org.github.io/icu/userguide/boundaryanalysis/).
+
+The `BreakIterator` class can be used to iterate such break points, or to split strings into similar groups. One notable use case is splitting a string into graphemes instead of individual characters or code points as described [here](https://github.com/flmnt/graphemer?tab=readme-ov-file#graphemer-unicode-character-splitter-). Using the ICU APIs for this process is roughly an order of magnitude faster than the [`GraphemeSplit`](https://www.autohotkey.com/boards/viewtopic.php?f=83&p=611993) function (see [the benchmark](./tests/benchmarks/graphemesplit.ahk)), which ports the behavior of the afforementioned TypeScript library directly. `BreakIterator` provides a utility method for this.
+
+```autohotkey
+; Enumerate the sentences in a paragraph
+paragraph := "It was a dark and stormy night <...>"
+for sentence in BreakIterator.Enumerate(paragraph, BreakIteratorType.SENTENCE) {
+    MsgBox(paragraph)
+}
+```
+```autohotkey
+; Split a string into graphemes:
+graphemes := BreakIterator.Graphemes("👨‍👨‍👧‍👦") ; => [👨‍👨‍👧‍👦], where StrSplit returns [�, �, �, �, �, �, �, �, �, �, �]
+```
