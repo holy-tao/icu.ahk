@@ -20,6 +20,13 @@ class BreakIterator {
      */
     static DONE => -1
 
+    /**
+     * The default locale for newly created BreakIterators. At startup, this is the local machine's current
+     * locale, but it can be modified at any time
+     * @type {String}
+     */
+    static DefaultLocale := DllCall("icu.dll\uloc_getDefault", "cdecl astr")
+
 ;@endregion Constants
 ;@region Static Methods
     /**
@@ -37,7 +44,7 @@ class BreakIterator {
      *      is used to specify the text to be iterated.
      * @param {integer} textLength The number of characters in text, or -1 if null-terminated.
      */
-    static Open(type, locale, text := 0, textLength := -1) => (
+    static Open(type, locale := BreakIterator.DefaultLocale, text := 0, textLength := -1) => (
         ptr := DllCall("icu.dll\ubrk_open",
             "uint", type,
             "astr", locale,
@@ -122,6 +129,87 @@ class BreakIterator {
      * @returns {Integer} The number of locales for which text breaking information is available.
      */
     static CountAvailable() => DllCall("icu.dll\ubrk_countAvailable", "cdecl int")
+
+    /**
+     * Returns an enumerator which uses a `BreakIterator` of the given type and locale to yield substrings of
+     * `text`. This enumerator can be used natively in for-loops.
+     * 
+     * @param {String} text the text to split over 
+     * @param {BreakIteratorType} type the type of BreakIterator to use 
+     * @param {String} locale locale string 
+     */
+    static Enumerate(text, type, locale := BreakIterator.DefaultLocale) => BreakIterator.Enumerator(
+        BreakIterator.Open(type, locale),
+        text,
+        type == BreakIteratorType.WORD)
+
+    /**
+     * Splits a string into its individual Graphemes, as opposed to individual characters. This accounts
+     * for most ligatures and characters that are composed from multiple codepoints.
+     * 
+     * This is an alias for 
+     * 
+     *      BreakIterator.Enumerate(str, BreakIteratorType.CHARACTER, "en").Collect()
+     * 
+     * @param {String} str the string to split 
+     * @param {String} locale the locale to use
+     * @returns {Array<String>} the collected list of graphemes
+     */
+    static Graphemes(str, locale := BreakIterator.DefaultLocale) => 
+        this.Enumerate(str, BreakIteratorType.CHARACTER, locale).Collect()
+
+    /**
+     * A `BreakIterator.Enumerator` object uses a `BreakIterator` to split a native AutoHotkey string
+     * into parts. It can be used natively in for-loops, or consumers can call `Collect` to collect the
+     * values that would be yielded into an array.
+     */
+    class Enumerator {
+        __New(bi, text, skipNone := false) {
+            this._bi := bi
+            this._text := text
+            this._skipNone := skipNone
+            ; Copy the string into a Buffer so ICU holds a stable pointer for
+            ; the enumerator's lifetime. StrPtr on an object property returns a
+            ; pointer to a temporary value; Buffer.Ptr is heap-stable.
+            this._buf := Buffer(StrPut(text, "UTF-16"))
+            StrPut(text, this._buf, , "UTF-16")
+            ; Exclude null terminator: StrPut size includes it, ICU length must not
+            this._bi.SetText(this._buf, this._buf.Size // 2 - 1)
+            this._pos := 1
+        }
+
+        __Enum(vars) {
+            if vars != 1
+                throw ValueError("BreakIterator.Enumerator only supports enumeration with one variable")
+            return this
+        }
+
+        Call(&output) {
+            loop {
+                next := this._bi.Next()
+                if next == BreakIterator.DONE
+                    return false
+
+                output := SubStr(this._text, this._pos, next - this._pos + 1)
+                this._pos := next + 1
+
+                ; For WORD iterators, skip non-word tokens (spaces, punctuation
+                ; have status UBRK_WORD_NONE = 0). Other iterator types don't use
+                ; status values and must not be filtered.
+                if !this._skipNone || this._bi.GetRuleStatus() != 0
+                    return true
+            }
+        }
+
+        Collect() {
+            arr := []
+            for piece in this {
+                arr.Push(piece)
+            }
+
+            return arr
+        }
+    }
 
 ;@endregion Static Methods
 ;@region Instance Methods

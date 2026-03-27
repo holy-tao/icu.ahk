@@ -107,6 +107,47 @@ class BreakIteratorTests {
             pos := bi.Next()
             Assert.Equals(bi.Current(), pos)
         }
+
+        class Enumerate {
+            Enumerate_WithWordBoundary_ReturnsWords() {
+                text := "Hello World"
+                enum := BreakIterator.Enumerate(text, BreakIteratorType.WORD)
+                Assert.IsType(enum, BreakIterator.Enumerator)
+                arr := enum.Collect()
+                Assert.ArraysEqual(arr, ["Hello", "World"])
+            }
+
+            Enumerate_WithCharacterBoundary_ReturnsCharacters() {
+                text := "ABCD"
+                enum := BreakIterator.Enumerate(text, BreakIteratorType.CHARACTER)
+                Assert.IsType(enum, BreakIterator.Enumerator)
+                arr := enum.Collect()
+                Assert.ArraysEqual(arr, ["A", "B", "C", "D"])
+            }
+
+            Enumerate_IsNativelyEnumerable() {
+                expected := ["Hello", "World"]
+                for word in BreakIterator.Enumerate("Hello World", BreakIteratorType.WORD)
+                    Assert.Equals(word, expected[A_Index])
+            }
+
+            Enumerate_WithCharacterBoundaryAndMultiCodepointGrapheme_ReturnsCharacter() {
+                text := "👨‍👩‍👦‍👦"
+                split := BreakIterator.Enumerate(text, BreakIteratorType.CHARACTER).Collect()
+                Assert.ArraysEqual(split, ["👨‍👩‍👦‍👦"])
+            }
+
+            Enumerate_WithCharacterBoundaryAndMulticodepointGraphemes_ReturnsCharacters() {
+                text := "ごん゙に゙ぢば"
+                split := BreakIterator.Enumerate(text, BreakIteratorType.CHARACTER).Collect()
+                Assert.ArraysEqual(split, ['ご', 'ん゙', 'に゙', 'ぢ', 'ば'])
+            }
+            
+            Graphemes_Always_GetsGraphemes() {
+                graphemes := BreakIterator.Graphemes("パピプペポ💩")
+                Assert.ArraysEqual(graphemes, ['パ', 'ピ', 'プ', 'ペ', 'ポ', '💩'])
+            }
+        }
     }
 
     class Positioning {
