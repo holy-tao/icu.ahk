@@ -11,6 +11,7 @@
 #Include CharsetConverter.test.ahk
 #Include BreakIterator.test.ahk
 #Include CharsetConverterSelector.test.ahk
+#Include UNormalizer2.test.ahk
 
 YUnit.Use(YunitResultCounter, YUnitJUnit, YUnitStdOut).Test(
 	ICUErrorTests,
@@ -18,7 +19,8 @@ YUnit.Use(YunitResultCounter, YUnitJUnit, YUnitStdOut).Test(
 	CharsetDetectorTests,
 	CharsetConverterTests,
 	BreakIteratorTests,
-	CharsetConverterSelectorTests
+	CharsetConverterSelectorTests,
+	UNormalizer2Tests
 )
 
 Exit(-YunitResultCounter.failures)
