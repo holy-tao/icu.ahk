@@ -8,6 +8,8 @@ This library provides *some* bindings for the ICU dlls, allowing callers to work
 The bindings currently support:
 - Character set detection ([`ucsdet.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html))
 - Character set conversion ([`ucnv.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnv_8h.html))
+- Boundary Analysis ([`ubrk.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ubrk_8h.html))
+- Normalization ([`coll.h`](https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/unorm2_8h.html))
 
 I'll add more as they become useful to me. The others I'm looking at are the timezone localization APIs.
 
