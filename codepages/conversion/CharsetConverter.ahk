@@ -1322,6 +1322,9 @@ class CharsetConverter {
     /**
      * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnv_8h.html#ae46ba3c408a77cde2b569111c5ac5596 `ucnv_close`}
      */
-    __Delete() => DllCall("icu.dll\ucnv_close", "ptr", this, "cdecl")
+    __Delete() {
+        if this.HasProp("ptr") && this.ptr != 0
+            DllCall("icu.dll\ucnv_close", "ptr", this, "cdecl")
+    }
 ;@endregion Instance Methods
 }

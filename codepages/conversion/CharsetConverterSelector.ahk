@@ -137,5 +137,8 @@ class CharsetConverterSelector {
     /**
      * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucnvsel_8h.html#aefb8c36821f227c1c769d608ed2700e6 `ucnvsel_close`} 
      */
-    __Delete() => DllCall("icu.dll\ucnvsel_close", "ptr", this, "cdecl")
+    __Delete() {
+        if this.HasProp("ptr") && this.ptr != 0
+            DllCall("icu.dll\ucnvsel_close", "ptr", this, "cdecl")
+    }
 }

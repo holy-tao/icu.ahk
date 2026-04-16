@@ -142,7 +142,10 @@ class CharsetDetector {
     /**
      * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ucsdet_8h.html#a579b6c2408957f80a6fa50dfc4a195ee `ucsdet_close`}
      */
-    __Delete() => DllCall("icu.dll\ucsdet_close", "ptr", this, "cdecl")
+    __Delete() {
+        if this.HasOwnProp("ptr") && this.ptr != 0
+            DllCall("icu.dll\ucsdet_close", "ptr", this, "cdecl")
+    }
 
     /**
      * A match that was identified from a charset detection operation. `CharsetDetector.Match` extracts the relevant

@@ -418,5 +418,8 @@ class BreakIterator {
     /**
      * @see {@link https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ubrk_8h.html#a850375bd698be8039e735a721586c843 `ubrk_close`}
      */
-    __Delete() => DllCall("icu.dll\ubrk_close", "ptr", this, "cdecl")
+    __Delete() {
+        if this.HasProp("ptr") && this.ptr != 0
+            DllCall("icu.dll\ubrk_close", "ptr", this, "cdecl")
+    }
 }
